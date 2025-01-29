@@ -153,7 +153,20 @@ double parseFactor(const char **expr) {
             }
         }
     }
-    
+    //checks for cot() and solves based on the number in parenthesis
+    else if (**expr == 'c' && *(*expr + 1) == 'o' && *(*expr + 2) == 't') {
+        *expr += 3;
+        if (**expr == '(') {
+            (*expr)++;
+            result = cot(evaluateExpression(*expr)* (M_PI / 180.0));
+            while (**expr && **expr != ')') {
+                (*expr)++;
+            }
+            if (**expr == ')') {
+                (*expr)++;
+            }
+        }
+    } 
     //checks for ln() and solves based on the number in parenthesis
     else if (**expr == 'l' && *(*expr + 1) == 'n') {
         *expr += 2;
