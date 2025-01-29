@@ -1,0 +1,5 @@
+How to compile/run/interpret:
+1. press win+r then type cmd and hit enter to open windows command line (win = windows key)
+2. type into the command line cd then the path where you saved the CalculatorLab2.c file then hit enter(ex: cd downloads\Lab2)
+3. type  gcc CalculatorLab2.c -o Lab2.exe hit Enter
+4. Type Lab2.exe then hit enter it should run the program.
