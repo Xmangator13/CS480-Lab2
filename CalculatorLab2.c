@@ -33,20 +33,41 @@ double evaluateExpression(const char *expr)
         if (*expr == '+') {
             expr++;
             result += parseTerm(&expr);
-        } else if (*expr == '-') {
+        } 
+        else if (*expr == '-') {
             expr++;
             result -= parseTerm(&expr);
-        } else {
+        } 
+        else {
             break;
         }
     }
 
     return result;
 }
-//this method is for multiplication and division
-double parseTerm(const char **expr) 
-{
-    return 0;
+//this method is for multiplication and division and exponent
+double parseTerm(const char **expr) {
+    double result = parseFactor(expr);
+    //this while method multiplies and divides, also checks for exponent then it calls the parseFactor method to check for parenthesis
+    while (**expr) {
+        if (**expr == '*') {
+            (*expr)++;
+            result *= parseFactor(expr);
+        } 
+        else if (**expr == '/') {
+            (*expr)++;
+            result /= parseFactor(expr);
+        } 
+        else if (**expr == '^') {
+            (*expr)++;
+            result = pow(result,parseFactor(expr));
+        } 
+        else {
+            break;
+        }
+    }
+
+    return result;
 }
 
 //this method checks for the operators sin, cos, tan, ln, and log10 along with parenthesis
@@ -56,7 +77,31 @@ double parseFactor(const char **expr)
 }
 
 //checks if the the current number is a negative and if the number is a decimal
-double parseNumber(const char **expr) 
-{
-   return 0;
+double parseNumber(const char **expr) {
+    double result = 0.0;
+    int sign = 1;
+
+    if (**expr == '-') {
+        sign = -1;
+        (*expr)++;
+    }
+    //checks if the current character is either a number or a period which means decimal
+    while (isdigit(**expr) || **expr == '.') {
+    //if the current character hass a period then make the number a decimal or double
+        if (**expr == '.') {
+            (*expr)++;
+            double fraction = 1.0;
+            while (isdigit(**expr)) {
+                fraction /= 10.0;
+                result += (**expr - '0') * fraction;
+                (*expr)++;
+            }
+        } 
+        else {
+            result = result * 10.0 + (**expr - '0');
+            (*expr)++;
+        }
+    }
+
+    return sign * result;
 }
