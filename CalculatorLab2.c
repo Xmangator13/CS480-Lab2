@@ -13,13 +13,35 @@ double parseNumber(const char **expr);
 
 int main() 
 {
+   char expression[MAX_EXPR_LEN];
 
+    printf("Enter an expression: ");
+    fgets(expression, MAX_EXPR_LEN, stdin);
+
+    double result = evaluateExpression(expression);
+    printf("Result: %lf\n", result);
+
+    return 0;
 }
 
 //this method looks for addition and subtraction in the expression at the current operator
 double evaluateExpression(const char *expr) 
 {
-   return 0;
+   double result = parseTerm(&expr);
+    //this while loop calls checks for addition and subtraction and then calls parseTerm
+    while (*expr) {
+        if (*expr == '+') {
+            expr++;
+            result += parseTerm(&expr);
+        } else if (*expr == '-') {
+            expr++;
+            result -= parseTerm(&expr);
+        } else {
+            break;
+        }
+    }
+
+    return result;
 }
 //this method is for multiplication and division
 double parseTerm(const char **expr) 
