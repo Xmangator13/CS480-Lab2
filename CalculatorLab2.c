@@ -158,7 +158,7 @@ double parseFactor(const char **expr) {
         *expr += 3;
         if (**expr == '(') {
             (*expr)++;
-            result = cot(evaluateExpression(*expr)* (M_PI / 180.0));
+            result = 1/(tan(evaluateExpression(*expr)* (M_PI / 180.0)));
             while (**expr && **expr != ')') {
                 (*expr)++;
             }
